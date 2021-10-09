@@ -76,15 +76,31 @@ const HomePage: React.FunctionComponent<IPage> = props => {
       var objects:any[] = [];
       for (var i in obj) {
         if (!obj.hasOwnProperty(i)) continue;
-        if (typeof obj[i] == 'object') {
+        if (typeof obj[i] === 'object') {
           objects = objects.concat(getObjects(obj[i], key, val));
         } else if (i === key && obj[key] === val) {
+          obj['title']='jjjjjjjjjjjjjjjjjj';
           objects.push(obj);
         }
       }
-      return objects;
+      return obj;
     }
+    // https://javascript.tutorialink.com/find-and-update-in-nested-json-object/
 
+    function setObjects(obj:any, key:any, val:any, newVal:any) {
+      var newValue = newVal;
+      var objects:any[] = [];
+      for (var i in obj) {
+          if (!obj.hasOwnProperty(i)) continue;
+          if (typeof obj[i] === 'object') {
+              objects = objects.concat(getObjects(obj[i], key, val));
+          } else if (i === key && obj[key] === val) {
+              obj[key] = newValue;
+          }
+      }
+      return obj;
+    }
+  
     function updateObj (menu: Array<any>) {
       /*menu.forEach(item => {
         for(let k in item) {
@@ -96,9 +112,11 @@ const HomePage: React.FunctionComponent<IPage> = props => {
       });*/
       const obj = menu;
       const key = 'id';
-      const val = 5;
+      const val = 7;
+      const newValue = '22222Appointments';
       const menu_updated = getObjects(obj, key, val);
-      // const selection = menu.map(item => item.id === 2);
+
+      //const menu_updated = setObjects(obj, key, val, 'ddddddddddddd');
       console.log('menu updated: menu_updated: ', menu_updated);
     }
 
