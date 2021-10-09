@@ -94,8 +94,11 @@ const HomePage: React.FunctionComponent<IPage> = props => {
         if (typeof obj[i] === 'object') {
           objects = objects.concat(updateObject(obj[i], key, replace));
         } else if (i === Object.keys(key)[0] && obj[Object.keys(key)[0]] === key[Object.keys(key)[0]]) {
-          obj[Object.keys(replace)[0]]=replace[Object.keys(replace)[0]];
-          obj[Object.keys(replace)[1]]=replace[Object.keys(replace)[1]];
+          for (let i=0; i < Object.keys(replace).length; i++) {
+            obj[Object.keys(replace)[i]]=replace[Object.keys(replace)[i]];
+          }
+          /*obj[Object.keys(replace)[0]]=replace[Object.keys(replace)[0]];
+          obj[Object.keys(replace)[1]]=replace[Object.keys(replace)[1]];*/
           objects.push(obj);
         }
       }
@@ -119,14 +122,15 @@ const HomePage: React.FunctionComponent<IPage> = props => {
       const data: any = {
         obj: menu,
         key: {
-          id: '7'
+          id: '2'
         },
         replace: {
-          title: 'XREARAEWRWREWRAEWRE',
-          firstname: 'Claudio'
+          title: 'XXXXXXXXXX',
+          firstname: 'Claudio',
+          lastname: 'Garaycochea',
         }
       };
-
+      console.log('>>>>>> data.key count: ', Object.keys(data.replace).length);
       console.log('data.key 0: ', Object.keys(data.key)[0]);
       const key_name: string = Object.keys(data.key)[0];
       console.log('data.key value 0: ', data.key[key_name]);
