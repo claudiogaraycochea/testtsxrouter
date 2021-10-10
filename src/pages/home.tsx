@@ -1,7 +1,7 @@
 import React from 'react';
 import IPage from '../interfaces/page';
 // import logging from '../config/logging';
-
+import * as obj from '../lib/objLib';
 
 const menu = [
 { 
@@ -69,41 +69,7 @@ const menu = [
 
 const HomePage: React.FunctionComponent<IPage> = props => {
 
-    console.log('menu', menu);
-    updateObj(menu);
-
-    function getObject(obj: any, key:any, replace : any) {
-      var objects:any[] = [];
-      for (var i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (typeof obj[i] === 'object') {
-          objects = objects.concat(getObject(obj[i], key, replace));
-        } else if (i === Object.keys(key)[0] && obj[Object.keys(key)[0]] === key[Object.keys(key)[0]]) {
-          // obj['title']='jjjjjjjjjjjjjjjjjj';
-          objects.push(obj);
-        }
-      }
-      return objects;
-    }
-    // https://javascript.tutorialink.com/find-and-update-in-nested-json-object/
-
-    function updateObject(obj: any, key:any, replace : any) {
-      var objects:any[] = [];
-      for (var i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (typeof obj[i] === 'object') {
-          objects = objects.concat(updateObject(obj[i], key, replace));
-        } else if (i === Object.keys(key)[0] && obj[Object.keys(key)[0]] === key[Object.keys(key)[0]]) {
-          for (let i=0; i < Object.keys(replace).length; i++) {
-            obj[Object.keys(replace)[i]]=replace[Object.keys(replace)[i]];
-          }
-          objects.push(obj);
-        }
-      }
-      return obj;
-    }
-
-    function updateObj (menu: Array<any>) {
+    function updateObj(menu: Array<any>) {
       const data: any = {
         obj: menu,
         key: {
@@ -116,14 +82,16 @@ const HomePage: React.FunctionComponent<IPage> = props => {
         }
       };
 
-      console.log('>>>>>> data.key count: ', Object.keys(data.replace).length);
+      /* 
+      // Get a key value from a JSON, ex: data.firstname the key is "firstname"
+      console.log('data.key count: ', Object.keys(data.replace).length);
       console.log('data.key 0: ', Object.keys(data.key)[0]);
       const key_name: string = Object.keys(data.key)[0];
       console.log('data.key value 0: ', data.key[key_name]);
-      const menu_updated: any = updateObject(data.obj, data.key, data.replace);
+      */
 
-      //const menu_updated = setObjects(obj, key, val, 'ddddddddddddd');
-      console.log('menu updated: menu_updated: ', menu_updated);
+      const menu_updated: any = obj.updateObject(data.obj, data.key, data.replace);
+      console.log('menu: menu_updated: ', menu_updated);
       
       const data_selection: any = {
         obj: menu,
@@ -136,9 +104,12 @@ const HomePage: React.FunctionComponent<IPage> = props => {
           lastname: 'Garaycochea',
         }
       };
-      const menu_selected = getObject(data_selection.obj, data_selection.key, data_selection.replace);
-      console.log(menu_selected);
+
+      const menu_selected = obj.getObject(data_selection.obj, data_selection.key, data_selection.replace);
+      console.log('menu: menu_selected: ',menu_selected);
     }
+
+    updateObj(menu);
 
     return (<div>
         <h1>TESTING PAGE</h1>
